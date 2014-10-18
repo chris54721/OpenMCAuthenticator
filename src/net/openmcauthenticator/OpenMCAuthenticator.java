@@ -45,29 +45,14 @@ public class OpenMCAuthenticator {
 
     /**
      * Refreshes the given access token.
-     * Allows to send a custom client token with the request.
      * @param accessToken The authentication token to be refreshed
-     * @param clientToken Custom client token to be sent with the request (should be unique)
-     * @see net.openmcauthenticator.OpenMCAuthenticator#refresh(String accessToken)
+     * @param clientToken Client token to be sent with the request. <b>Needs to be identical to the one received when getting the token.</b>
      * @throws net.openmcauthenticator.exceptions.AuthenticationUnavailableException the servers are unreachable
      * @throws net.openmcauthenticator.exceptions.InvalidTokenException the provided token is invalid
      * @return A RefreshResponse containing the server response
      */
     public static RefreshResponse refresh(String accessToken, String clientToken) throws RequestException {
         return new RefreshResponse();
-    }
-
-    /**
-     * Refreshes the given access token.
-     * The server will generate a random client token.
-     * @param accessToken The authentication token to be refreshed
-     * @see net.openmcauthenticator.OpenMCAuthenticator#refresh(String accessToken, String clientToken)
-     * @throws net.openmcauthenticator.exceptions.AuthenticationUnavailableException the servers are unreachable
-     * @throws net.openmcauthenticator.exceptions.InvalidTokenException the provided token is invalid
-     * @return A RefreshResponse containing the server response
-     */
-    public static RefreshResponse refresh(String accessToken) throws RequestException {
-        return refresh(accessToken, null);
     }
 
     /**
@@ -99,29 +84,14 @@ public class OpenMCAuthenticator {
 
     /**
      * Invalidates the given access token.
-     * Allows to send a custom client token with the request.
      * @param accessToken The authentication token to be validated
-     * @param clientToken Custom client token to be sent with the request (should be unique)
-     * @see net.openmcauthenticator.OpenMCAuthenticator#invalidate(String accessToken)
+     * @param clientToken Client token to be sent with the request. <b>Needs to be identical to the one received when getting the token.</b>
      * @throws net.openmcauthenticator.exceptions.AuthenticationUnavailableException the servers are unreachable
      * @throws net.openmcauthenticator.exceptions.InvalidTokenException the provided token is invalid
      * @return true if the token was invalidated successfully, false otherwise.
      */
     public static boolean invalidate(String accessToken, String clientToken) throws RequestException {
         return false;
-    }
-
-    /**
-     * Invalidates the given access token.
-     * The server will generate a random client token.
-     * @param accessToken The authentication token to be validated
-     * @see net.openmcauthenticator.OpenMCAuthenticator#invalidate(String accessToken, String clientToken)
-     * @throws net.openmcauthenticator.exceptions.AuthenticationUnavailableException the servers are unreachable
-     * @throws net.openmcauthenticator.exceptions.InvalidTokenException the provided token is invalid
-     * @return true if the token was invalidated successfully, false otherwise.
-     */
-    public static boolean invalidate(String accessToken) throws RequestException {
-        return invalidate(accessToken, null);
     }
 
     /**

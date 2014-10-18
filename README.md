@@ -7,7 +7,6 @@ Designed to work with latest Mojang protocols, enables you to parse every bit of
 - Works with both Mojang and old Minecraft accounts
 - Provides static functions for every request type: `authenticate`, `refresh`, `signout`, `validate` and `invalidate`
 - Uses custom exceptions to give you every detail on what went wrong with the request
-- Supports custom agents and client tokens
 
 ##Download/Installation
 Downloads are available on the [releases page](https://github.com/Chris54721/OpenMCAuthenticator/releases).
@@ -25,7 +24,7 @@ The available methods are: `authenticate`, `refresh`, `signout`, `validate` and 
 
 `authenticate` and `refresh` return a response object extending `LoginResponse` (`AuthenticationResponse` or `RefreshResponse`). This means, regardless of the method used, you will be able to use the following methods:
 - `getAccessToken` - returns the access token to be used when launching the game
-- `getClientToken` - returns the client token used in the request (defaults to a random UUID)
+- `getClientToken` - returns the client token used in the request
 - `getSelectedProfile` - returns a Profile object representing the current profile
 
 For a more detailed documentation, just check the javadoc included with the library.
@@ -72,10 +71,11 @@ try {
 ```
 
 ###Refresh
-Use `OpenMCAuthenticator.refresh` to request a new token by providing an old (but valid) one. 
+Use `OpenMCAuthenticator.refresh` to request a new token by providing a valid one and the client token used to get the token in the first place.
+**The token has to be the same to the one returned when getting the access token!** See the [Client tokens](https://github.com/Chris54721/OpenMCAuthenticator#client-tokens) section for more info.
 ```
 try {
-  RefreshResponse refreshResponse = OpenMCAuthenticator.refresh("old accessToken");
+  RefreshResponse refreshResponse = OpenMCAuthenticator.refresh("old accessToken", "used clientToken");
   String authToken = refreshResponse.getAccessToken();
 } catch(ResponseException e) {
   // handle exception
@@ -94,10 +94,11 @@ try {
 ```
 
 ###Invalidate
-Use `OpenMCAuthenticator.invalidate` to invalidate the given access token for the account.
+Use `OpenMCAuthenticator.invalidate` to invalidate the given access token.
+**The client token has to be the same to the one returned when getting the access token!** See the [Client tokens](https://github.com/Chris54721/OpenMCAuthenticator#client-tokens) section for more info.
 ```
 try {
-  boolean success = OpenMCAuthenticator.invalidate("accessToken");
+  boolean success = OpenMCAuthenticator.invalidate("accessToken", "clientToken");
 } catch(ResponseException e) {
   // handle exception
 }
@@ -113,8 +114,10 @@ try {
 }
 ```
 
-###Using custom client tokens
-The `clientToken` value is intended to be generated randomly for every request. OpenMCAuthenticator doesn't send a clientToken by default, as the authentication servers automatically generate one (by default a random UUID, which is then obtainable by the client by calling `getClientToken()` on the returned `LoginResponse`). If for some reason you need to use a custom client token, just add it as a `String` to the request method parameters. For example:
+###Client tokens
+The `clientToken` value is intended to be generated randomly for `authenticate`, `signout` and `validate` (while `request` and `invalidate` require it to be the same to the one received when getting the token)
+
+OpenMCAuthenticator by default doesn't send a client token when optional, as the authentication servers automatically generate one (by default a random UUID, which is then obtainable by the client by calling `getClientToken()` on the returned `LoginResponse`). If for some reason you need to use a custom client token, just add it as a `String` to the request method parameters. For example:
 ```
 // Default (the server will generate the token)
 OpenMCAuthenticator.authenticate("username", "password");
