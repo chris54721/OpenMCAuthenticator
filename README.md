@@ -30,7 +30,7 @@ The available methods are: `authenticate`, `refresh`, `signout`, `validate` and 
 For a more detailed documentation, just check the javadoc included with the library.
 ###Profiles
 The `Profile` object is returned by `loginResponse.getSelectedProfile()` and a `Profile[]` object is returned by `authenticationResponse.getAvailableProfiles()` (where `loginResponse` and `authenticationResponse` are instances of the two classes). It contains the following (non-static) methods:
-- `getId()` - returns the user's UUID. Can be converted to a string with `toString()`
+- `getUUID()` - returns the user's UUID. Can be converted to a string with `toString()`
 - `getName()` - returns the nickname of the user with correct capitalization as a `String`
 - `isLegacy()` - returns a boolean; `true` if the profile is a legacy (old) Minecraft account (uses username to log in)
 
