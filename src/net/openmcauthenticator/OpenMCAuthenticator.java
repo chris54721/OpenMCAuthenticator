@@ -1,15 +1,17 @@
 package net.openmcauthenticator;
 
+import net.openmcauthenticator.exceptions.AuthenticationUnavailableException;
 import net.openmcauthenticator.exceptions.RequestException;
 import net.openmcauthenticator.responses.AuthenticationResponse;
 import net.openmcauthenticator.responses.RefreshResponse;
+import net.openmcauthenticator.responses.RequestResponse;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URL;
+import java.util.Map;
 
 /**
  * OpenMCAuthenticator - Simple Minecraft authenticator
@@ -31,7 +33,15 @@ public class OpenMCAuthenticator {
      * @throws net.openmcauthenticator.exceptions.UserMigratedException email should be used as username instead of nickname
      * @return An AuthenticationResponse containing the server response
      */
-    public static AuthenticationResponse authenticate(String username, String password, String clientToken) throws RequestException {
+    public static AuthenticationResponse authenticate(String username, String password, String clientToken) throws RequestException, AuthenticationUnavailableException {
+        RequestResponse result = sendJsonPostRequest(getRequestUrl("authenticate"), JsonUtils.credentialsToJson(username, password, clientToken));
+        if(result.isSuccessful()) {
+            String accessToken = (String) result.getData().get("accessToken");
+            String rClientToken = (String) result.getData().get("clientToken");
+            Profile selectedProfile = JsonUtils.gson.fromJson(JsonUtils.gson.toJson(result.getData().get("selectedProfile")), Profile.class);
+            Profile[] availableProfiles = JsonUtils.gson.fromJson(JsonUtils.gson.toJson(result.getData().get("availableProfiles")), Profile[].class);
+            return new AuthenticationResponse(accessToken, clientToken, selectedProfile, availableProfiles);
+        }
         return null;
     }
 
@@ -46,7 +56,7 @@ public class OpenMCAuthenticator {
      * @throws net.openmcauthenticator.exceptions.UserMigratedException email should be used as username instead of nickname
      * @return An AuthenticationResponse containing the server response
      */
-    public static AuthenticationResponse authenticate(String username, String password) throws RequestException {
+    public static AuthenticationResponse authenticate(String username, String password) throws RequestException, AuthenticationUnavailableException {
         return authenticate(username, password, null);
     }
 
@@ -58,7 +68,7 @@ public class OpenMCAuthenticator {
      * @throws net.openmcauthenticator.exceptions.InvalidTokenException the provided token is invalid
      * @return A RefreshResponse containing the server response
      */
-    public static RefreshResponse refresh(String accessToken, String clientToken) throws RequestException {
+    public static RefreshResponse refresh(String accessToken, String clientToken) throws RequestException, AuthenticationUnavailableException {
         return null;
     }
 
@@ -72,7 +82,7 @@ public class OpenMCAuthenticator {
      * @throws net.openmcauthenticator.exceptions.InvalidTokenException the provided token is invalid
      * @return true if the token is valid, false otherwise.
      */
-    public static boolean validate(String accessToken, String clientToken) throws RequestException {
+    public static boolean validate(String accessToken, String clientToken) throws RequestException, AuthenticationUnavailableException {
         return false;
     }
 
@@ -85,7 +95,7 @@ public class OpenMCAuthenticator {
      * @throws net.openmcauthenticator.exceptions.InvalidTokenException the provided token is invalid
      * @return true if the token is valid, false otherwise.
      */
-    public static boolean validate(String accessToken) throws RequestException {
+    public static boolean validate(String accessToken) throws RequestException, AuthenticationUnavailableException {
         return validate(accessToken, null);
     }
 
@@ -97,7 +107,7 @@ public class OpenMCAuthenticator {
      * @throws net.openmcauthenticator.exceptions.InvalidTokenException the provided token is invalid
      * @return true if the token was invalidated successfully, false otherwise.
      */
-    public static boolean invalidate(String accessToken, String clientToken) throws RequestException {
+    public static boolean invalidate(String accessToken, String clientToken) throws RequestException, AuthenticationUnavailableException {
         return false;
     }
 
@@ -113,7 +123,7 @@ public class OpenMCAuthenticator {
      * @throws net.openmcauthenticator.exceptions.UserMigratedException email should be used as username instead of nickname
      * @return true if the signout request was successful, false otherwise.
      */
-    public static boolean signout(String username, String password, String clientToken) throws RequestException {
+    public static boolean signout(String username, String password, String clientToken) throws RequestException, AuthenticationUnavailableException {
         return false;
     }
 
@@ -128,32 +138,50 @@ public class OpenMCAuthenticator {
      * @throws net.openmcauthenticator.exceptions.UserMigratedException email should be used as username instead of nickname
      * @return true if the signout request was successful, false otherwise.
      */
-    public static boolean signout(String username, String password) throws RequestException {
+    public static boolean signout(String username, String password) throws RequestException, AuthenticationUnavailableException {
         return signout(username, password, null);
     }
 
-    private static String sendJsonPostRequest(URL requestUrl, String payload) {
-        HttpsURLConnection connection;
+    private static URL getRequestUrl(String request) {
         try {
-            connection = (HttpsURLConnection) requestUrl.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setDoOutput(true);
-            DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-            out.writeBytes(payload);
-            out.flush();
-            out.close();
-            int responseCode = connection.getResponseCode();
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder response = new StringBuilder();
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) response.append(inputLine);
-            in.close();
-            return response.toString();
-        } catch (IOException e) {
+            return new URL("https://authserver.mojang.com/" + request);
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    private static RequestResponse sendJsonPostRequest(URL requestUrl, String payload) throws AuthenticationUnavailableException {
+        HttpsURLConnection connection = null;
+        try {
+            byte[] payloadBytes = payload.getBytes("UTF-8");
+            connection = (HttpsURLConnection) requestUrl.openConnection();
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+            connection.setInstanceFollowRedirects(false);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Accept-Charset", "UTF-8");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Content-Length", String.valueOf(payloadBytes.length));
+            connection.setUseCaches(false);
+            OutputStream out = connection.getOutputStream();
+            out.write(payloadBytes, 0, payloadBytes.length);
+            out.close();
+
+            int responseCode = connection.getResponseCode();
+            String line;
+            BufferedReader reader;
+            if (connection.getResponseCode() == 200) reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+            else reader = new BufferedReader(new InputStreamReader(connection.getErrorStream(), "UTF-8"));
+            String response = reader.readLine();
+            reader.close();
+            Map<String, Object> map = JsonUtils.gson.fromJson(response, JsonUtils.stringObjectMap);
+            return new RequestResponse(responseCode, map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new AuthenticationUnavailableException(null);
+        } finally {
+            if(connection != null) connection.disconnect();
         }
     }
 

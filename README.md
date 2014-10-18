@@ -35,13 +35,13 @@ The `Profile` object is returned by `loginResponse.getSelectedProfile()` and a `
 - `isLegacy()` - returns a boolean; `true` if the profile is a legacy (old) Minecraft account (uses username to log in)
 
 ###Exceptions
-Every available method returns an exception extending `RequestException` if the request returned an error.
+Every available method throws an exception extending `RequestException` if the request returned an authentication problem.
 The full list of exceptions is available below.
-- `RequestException` - a general exception. Every other exception extends this. To get more detailed info about the exception, call `getError()` or `getErrorMessage()`.
-- `AuthenticationUnavailableException` - the Mojang servers are offline and can't be reached. Thrown by every method.
+- `RequestException` - a general exception. Every other authentication exception extends this. To get more detailed info about the exception, call `getError()` or `getErrorMessage()`.
 - `InvalidCredentialsException` - the provided credentials are invalid (bad or empty username/password). Thrown by `authenticate` and `signout`.
 - `InvalidTokenException` - the provided token is invalid. Thrown by `refresh`, `validate` and `invalidate`.
 - `UserMigratedException` - the Mojang account email address should be used as the username instead of the nickname. Thrown by `authenticate` and `signout`.
+- `AuthenticationUnavailableException` - thrown every time an `IOException` is generated, so every time the authentication services are unavailable. Does not extend `RequestException` as there's no error code.
 
 #### Exceptions example
 ```

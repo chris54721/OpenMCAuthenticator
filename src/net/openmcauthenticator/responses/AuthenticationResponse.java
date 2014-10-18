@@ -2,6 +2,10 @@ package net.openmcauthenticator.responses;
 
 import net.openmcauthenticator.Profile;
 
+/**
+ * Response generated when authentication is successful.
+ * @see net.openmcauthenticator.responses.LoginResponse
+ */
 public class AuthenticationResponse extends LoginResponse {
 
     private Profile[] availableProfiles;
