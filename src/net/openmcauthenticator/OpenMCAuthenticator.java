@@ -126,7 +126,13 @@ public class OpenMCAuthenticator {
      * @return true if the token was invalidated successfully, false otherwise.
      */
     public static boolean invalidate(String accessToken, String clientToken) throws RequestException, AuthenticationUnavailableException {
-        return false;
+        RequestResponse result = sendJsonPostRequest(getRequestUrl("invalidate"), JsonUtils.tokenToJson(accessToken, clientToken));
+        if(result.isSuccessful()) {
+            return true;
+        } else {
+            ErrorResponse errorResponse = JsonUtils.gson.fromJson(JsonUtils.gson.toJson(result.getData()), ErrorResponse.class);
+            throw new InvalidTokenException(errorResponse);
+        }
     }
 
     /**
@@ -142,7 +148,14 @@ public class OpenMCAuthenticator {
      * @return true if the signout request was successful, false otherwise.
      */
     public static boolean signout(String username, String password, String clientToken) throws RequestException, AuthenticationUnavailableException {
-        return false;
+        RequestResponse result = sendJsonPostRequest(getRequestUrl("invalidate"), JsonUtils.credentialsToJson(username, password, clientToken));
+        if(result.isSuccessful()) {
+            return true;
+        } else {
+            ErrorResponse errorResponse = JsonUtils.gson.fromJson(JsonUtils.gson.toJson(result.getData()), ErrorResponse.class);
+            if(result.getData().get("cause") != null && ((String)(result.getData().get("cause"))).equalsIgnoreCase("UserMigratedException")) throw new UserMigratedException(errorResponse);
+            else throw new InvalidCredentialsException(errorResponse);
+        }
     }
 
     /**
