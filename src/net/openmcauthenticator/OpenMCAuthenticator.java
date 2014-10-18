@@ -1,8 +1,8 @@
 package net.openmcauthenticator;
 
-import net.openmcauthenticator.exceptions.AuthenticationUnavailableException;
-import net.openmcauthenticator.exceptions.RequestException;
+import net.openmcauthenticator.exceptions.*;
 import net.openmcauthenticator.responses.AuthenticationResponse;
+import net.openmcauthenticator.responses.ErrorResponse;
 import net.openmcauthenticator.responses.RefreshResponse;
 import net.openmcauthenticator.responses.RequestResponse;
 
@@ -40,9 +40,12 @@ public class OpenMCAuthenticator {
             String rClientToken = (String) result.getData().get("clientToken");
             Profile selectedProfile = JsonUtils.gson.fromJson(JsonUtils.gson.toJson(result.getData().get("selectedProfile")), Profile.class);
             Profile[] availableProfiles = JsonUtils.gson.fromJson(JsonUtils.gson.toJson(result.getData().get("availableProfiles")), Profile[].class);
-            return new AuthenticationResponse(accessToken, clientToken, selectedProfile, availableProfiles);
+            return new AuthenticationResponse(accessToken, rClientToken, selectedProfile, availableProfiles);
+        } else {
+            ErrorResponse errorResponse = JsonUtils.gson.fromJson(JsonUtils.gson.toJson(result.getData()), ErrorResponse.class);
+            if(result.getData().get("cause") != null && ((String)(result.getData().get("cause"))).equalsIgnoreCase("UserMigratedException")) throw new UserMigratedException(errorResponse);
+            else throw new InvalidCredentialsException(errorResponse);
         }
-        return null;
     }
 
     /**
@@ -69,7 +72,16 @@ public class OpenMCAuthenticator {
      * @return A RefreshResponse containing the server response
      */
     public static RefreshResponse refresh(String accessToken, String clientToken) throws RequestException, AuthenticationUnavailableException {
-        return null;
+        RequestResponse result = sendJsonPostRequest(getRequestUrl("refresh"), JsonUtils.tokenToJson(accessToken, clientToken));
+        if(result.isSuccessful()) {
+            String newAccessToken = (String) result.getData().get("accessToken");
+            String rClientToken = (String) result.getData().get("clientToken");
+            Profile selectedProfile = JsonUtils.gson.fromJson(JsonUtils.gson.toJson(result.getData().get("selectedProfile")), Profile.class);
+            return new RefreshResponse(newAccessToken, rClientToken, selectedProfile);
+        } else {
+            ErrorResponse errorResponse = JsonUtils.gson.fromJson(JsonUtils.gson.toJson(result.getData()), ErrorResponse.class);
+            throw new InvalidTokenException(errorResponse);
+        }
     }
 
     /**
