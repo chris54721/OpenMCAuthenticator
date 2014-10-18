@@ -95,7 +95,13 @@ public class OpenMCAuthenticator {
      * @return true if the token is valid, false otherwise.
      */
     public static boolean validate(String accessToken, String clientToken) throws RequestException, AuthenticationUnavailableException {
-        return false;
+        RequestResponse result = sendJsonPostRequest(getRequestUrl("validate"), JsonUtils.tokenToJson(accessToken, clientToken));
+        if(result.isSuccessful()) {
+            return true;
+        } else {
+            ErrorResponse errorResponse = JsonUtils.gson.fromJson(JsonUtils.gson.toJson(result.getData()), ErrorResponse.class);
+            throw new InvalidTokenException(errorResponse);
+        }
     }
 
     /**
@@ -182,11 +188,22 @@ public class OpenMCAuthenticator {
 
             int responseCode = connection.getResponseCode();
             String line;
-            BufferedReader reader;
-            if (connection.getResponseCode() == 200) reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-            else reader = new BufferedReader(new InputStreamReader(connection.getErrorStream(), "UTF-8"));
-            String response = reader.readLine();
-            reader.close();
+            BufferedReader reader = null;
+            String response;
+            switch (responseCode) {
+                case 200:
+                    reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+                    response = reader.readLine();
+                    break;
+                case 204:
+                    response = "";
+                    break;
+                default:
+                    reader = new BufferedReader(new InputStreamReader(connection.getErrorStream(), "UTF-8"));
+                    response = reader.readLine();
+                    break;
+            }
+            if(reader != null) reader.close();
             Map<String, Object> map = JsonUtils.gson.fromJson(response, JsonUtils.stringObjectMap);
             return new RequestResponse(responseCode, map);
         } catch (Exception e) {

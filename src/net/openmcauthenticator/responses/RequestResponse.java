@@ -22,7 +22,7 @@ public class RequestResponse {
     }
 
     public boolean isSuccessful() {
-        return responseCode == 200;
+        return responseCode == 200 || responseCode == 204;
     }
 
     public Map<String, Object> getData() {
