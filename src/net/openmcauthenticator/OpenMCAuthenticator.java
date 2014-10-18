@@ -148,7 +148,7 @@ public class OpenMCAuthenticator {
      * @return true if the signout request was successful, false otherwise.
      */
     public static boolean signout(String username, String password, String clientToken) throws RequestException, AuthenticationUnavailableException {
-        RequestResponse result = sendJsonPostRequest(getRequestUrl("invalidate"), JsonUtils.credentialsToJson(username, password, clientToken));
+        RequestResponse result = sendJsonPostRequest(getRequestUrl("signout"), JsonUtils.credentialsToJson(username, password, clientToken));
         if(result.isSuccessful()) {
             return true;
         } else {
