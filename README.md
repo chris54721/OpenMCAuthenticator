@@ -38,11 +38,11 @@ The `Profile` object is returned by `loginResponse.getSelectedProfile()` and a `
 ###Exceptions
 Every available method returns an exception extending `RequestException` if the request returned an error.
 The full list of exceptions is available below.
-- `RequestException` - a general exception. Every other exception extends this. To get more detailed info about the exception, call `getError()` or `getErrorMessage()`
+- `RequestException` - a general exception. Every other exception extends this. To get more detailed info about the exception, call `getError()` or `getErrorMessage()`.
 - `AuthenticationUnavailableException` - the Mojang servers are offline and can't be reached. Thrown by every method.
-- `InvalidCredentialsException` - the provided credentials are invalid (bad or empty username/password). Thrown by `authenticate`.
-- `InvalidTokenException` - the provided token is invalid. Thrown by `refresh`, `signout`, `validate` and `invalidate`
-- `UserMigratedException` - the Mojang account email address should be used as the username instead of the nickname. Thrown by `authenticate`
+- `InvalidCredentialsException` - the provided credentials are invalid (bad or empty username/password). Thrown by `authenticate` and `signout`.
+- `InvalidTokenException` - the provided token is invalid. Thrown by `refresh`, `validate` and `invalidate`.
+- `UserMigratedException` - the Mojang account email address should be used as the username instead of the nickname. Thrown by `authenticate` and `signout`.
 
 #### Exceptions example
 ```
