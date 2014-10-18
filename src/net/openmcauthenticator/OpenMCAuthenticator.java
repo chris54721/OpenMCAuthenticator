@@ -4,6 +4,13 @@ import net.openmcauthenticator.exceptions.RequestException;
 import net.openmcauthenticator.responses.AuthenticationResponse;
 import net.openmcauthenticator.responses.RefreshResponse;
 
+import javax.net.ssl.HttpsURLConnection;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+
 /**
  * OpenMCAuthenticator - Simple Minecraft authenticator
  * @author Chris54721
@@ -25,7 +32,7 @@ public class OpenMCAuthenticator {
      * @return An AuthenticationResponse containing the server response
      */
     public static AuthenticationResponse authenticate(String username, String password, String clientToken) throws RequestException {
-        return new AuthenticationResponse();
+        return null;
     }
 
     /**
@@ -52,7 +59,7 @@ public class OpenMCAuthenticator {
      * @return A RefreshResponse containing the server response
      */
     public static RefreshResponse refresh(String accessToken, String clientToken) throws RequestException {
-        return new RefreshResponse();
+        return null;
     }
 
     /**
@@ -123,6 +130,31 @@ public class OpenMCAuthenticator {
      */
     public static boolean signout(String username, String password) throws RequestException {
         return signout(username, password, null);
+    }
+
+    private static String sendJsonPostRequest(URL requestUrl, String payload) {
+        HttpsURLConnection connection;
+        try {
+            connection = (HttpsURLConnection) requestUrl.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setDoOutput(true);
+            DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+            out.writeBytes(payload);
+            out.flush();
+            out.close();
+            int responseCode = connection.getResponseCode();
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder response = new StringBuilder();
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) response.append(inputLine);
+            in.close();
+            return response.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
