@@ -1,4 +1,5 @@
 #OpenMCAuthenticator
+[![Build Status](https://travis-ci.org/Chris54721/OpenMCAuthenticator.svg?branch=master)](https://travis-ci.org/Chris54721/OpenMCAuthenticator)
 
 A simple, open and documented Java API for authenticating Minecraft users.
 Designed to work with latest Mojang protocols, enables you to parse every bit of data you can request to the auth servers.
