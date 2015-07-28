@@ -1,0 +1,8 @@
+language: java
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+  - openjdk6
+script:
+  - gradle build
+  - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ -n "TRAVIS_TAG" ]; then ./deploy.sh; fi

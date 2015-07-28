@@ -1,5 +1,5 @@
 apply plugin: 'java'
-apply plugin: 'idea'
+apply plugin: 'maven'
 
 version = '1.1.0'
 group = 'net.chris54721'
@@ -11,6 +11,15 @@ repositories {
 
 dependencies {
     compile group: 'com.google.code.gson', name: 'gson', version: '2.3.1'
+}
+
+uploadArchives << {
+    if(!project.hasProperty("mavenUser")) {
+        throw new InvalidUserDataException("The mavenUser property is not defined. Failed deploying to Maven.")
+    }
+    if(!project.hasProperty("mavenPassword")) {
+        throw new InvalidUserDataException("The mavenPassword property is not defined. Failed deploying to Maven.")
+    }
 }
 
 if(project.hasProperty("mavenUser") && project.hasProperty("mavenPassword")) {
