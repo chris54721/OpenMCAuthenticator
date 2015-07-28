@@ -6,4 +6,5 @@ jdk:
   - openjdk6
 script:
   - gradle build
-  - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ -n "TRAVIS_TAG" ]; then chmod +x deploy.sh; ./deploy.sh; fi
+  - chmod +x deploy.sh
+  - ./deploy.sh
