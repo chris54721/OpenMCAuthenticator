@@ -22,6 +22,16 @@ uploadArchives << {
     }
 }
 
+task javadocJar (type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+task sourceJar (type : Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
 if(project.hasProperty("mavenUser") && project.hasProperty("mavenPassword")) {
     publishing {
         publications {
