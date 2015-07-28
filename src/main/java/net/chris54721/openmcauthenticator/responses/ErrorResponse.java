@@ -8,6 +8,7 @@ import java.io.Serializable;
  * Response generated when an exception is thrown.
  * Intended for internal use only.
  * Call getError() and getErrorMessage() on a RequestException object to get more info about the error.
+ *
  * @see RequestException
  */
 public class ErrorResponse implements Serializable {

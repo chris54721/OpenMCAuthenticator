@@ -4,6 +4,7 @@ import net.chris54721.openmcauthenticator.responses.ErrorResponse;
 
 /**
  * Main class, extended by every library's exception.
+ *
  * @see AuthenticationUnavailableException
  * @see InvalidCredentialsException
  * @see InvalidTokenException

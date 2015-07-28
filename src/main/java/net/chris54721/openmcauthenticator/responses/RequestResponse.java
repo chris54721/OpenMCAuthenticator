@@ -7,6 +7,7 @@ import java.util.Map;
 /**
  * Response generated after every request made with private method sendJsonPostRequest.
  * Intended for internal use only.
+ *
  * @see OpenMCAuthenticator#sendJsonPostRequest(java.net.URL, String)
  */
 public class RequestResponse {

@@ -4,6 +4,7 @@ import net.chris54721.openmcauthenticator.Profile;
 
 /**
  * Response generated when authentication/refresh is successful.
+ *
  * @see LoginResponse
  */
 public class LoginResponse {
