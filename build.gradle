@@ -23,7 +23,7 @@ uploadArchives << {
 }
 
 if(project.hasProperty("mavenUser") && project.hasProperty("mavenPassword")) {
-    publishing {
+    project.publishing {
         publications {
             maven(MavenPublication) {
                 artifactId 'openmcauthenticator'
