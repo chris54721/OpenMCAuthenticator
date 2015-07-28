@@ -1,4 +1,4 @@
-package net.openmcauthenticator;
+package net.chris54721.openmcauthenticator;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -15,7 +15,8 @@ public class JsonUtils {
 
     static {
         gson = new Gson();
-        stringObjectMap = new TypeToken<Map<String, Object>>(){}.getType();
+        stringObjectMap = new TypeToken<Map<String, Object>>() {
+        }.getType();
         Map<String, Object> agentValues = new LinkedHashMap<String, Object>();
         agentValues.put("name", "Minecraft");
         agentValues.put("version", 1);

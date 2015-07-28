@@ -1,10 +1,10 @@
-package net.openmcauthenticator;
+package net.chris54721.openmcauthenticator;
 
-import net.openmcauthenticator.exceptions.*;
-import net.openmcauthenticator.responses.AuthenticationResponse;
-import net.openmcauthenticator.responses.ErrorResponse;
-import net.openmcauthenticator.responses.RefreshResponse;
-import net.openmcauthenticator.responses.RequestResponse;
+import net.chris54721.openmcauthenticator.exceptions.*;
+import net.chris54721.openmcauthenticator.responses.AuthenticationResponse;
+import net.chris54721.openmcauthenticator.responses.ErrorResponse;
+import net.chris54721.openmcauthenticator.responses.RefreshResponse;
+import net.chris54721.openmcauthenticator.responses.RequestResponse;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
@@ -27,10 +27,10 @@ public class OpenMCAuthenticator {
      * @param username The username, can be a nickname (old Minecraft account) or an email (Mojang account)
      * @param password The password for the account
      * @param clientToken Custom client token to be sent with the request (should be unique)
-     * @see net.openmcauthenticator.OpenMCAuthenticator#authenticate(String username, String password)
-     * @throws net.openmcauthenticator.exceptions.AuthenticationUnavailableException the servers are unreachable
-     * @throws net.openmcauthenticator.exceptions.InvalidCredentialsException bad or empty username/password pair
-     * @throws net.openmcauthenticator.exceptions.UserMigratedException email should be used as username instead of nickname
+     * @see OpenMCAuthenticator#authenticate(String username, String password)
+     * @throws AuthenticationUnavailableException the servers are unreachable
+     * @throws InvalidCredentialsException bad or empty username/password pair
+     * @throws UserMigratedException email should be used as username instead of nickname
      * @return An AuthenticationResponse containing the server response
      */
     public static AuthenticationResponse authenticate(String username, String password, String clientToken) throws RequestException, AuthenticationUnavailableException {
@@ -53,10 +53,10 @@ public class OpenMCAuthenticator {
      * The server will generate a random client token.
      * @param username The username, can be a nickname (old Minecraft account) or an email (Mojang account)
      * @param password The password for the account
-     * @see net.openmcauthenticator.OpenMCAuthenticator#authenticate(String username, String password, String clientToken)
-     * @throws net.openmcauthenticator.exceptions.AuthenticationUnavailableException the servers are unreachable
-     * @throws net.openmcauthenticator.exceptions.InvalidCredentialsException bad or empty username/password pair
-     * @throws net.openmcauthenticator.exceptions.UserMigratedException email should be used as username instead of nickname
+     * @see OpenMCAuthenticator#authenticate(String username, String password, String clientToken)
+     * @throws AuthenticationUnavailableException the servers are unreachable
+     * @throws InvalidCredentialsException bad or empty username/password pair
+     * @throws UserMigratedException email should be used as username instead of nickname
      * @return An AuthenticationResponse containing the server response
      */
     public static AuthenticationResponse authenticate(String username, String password) throws RequestException, AuthenticationUnavailableException {
@@ -67,8 +67,8 @@ public class OpenMCAuthenticator {
      * Refreshes the given access token.
      * @param accessToken The authentication token to be refreshed
      * @param clientToken Client token to be sent with the request. <b>Needs to be identical to the one received when getting the token.</b>
-     * @throws net.openmcauthenticator.exceptions.AuthenticationUnavailableException the servers are unreachable
-     * @throws net.openmcauthenticator.exceptions.InvalidTokenException the provided token is invalid
+     * @throws AuthenticationUnavailableException the servers are unreachable
+     * @throws InvalidTokenException the provided token is invalid
      * @return A RefreshResponse containing the server response
      */
     public static RefreshResponse refresh(String accessToken, String clientToken) throws RequestException, AuthenticationUnavailableException {
@@ -89,9 +89,9 @@ public class OpenMCAuthenticator {
      * Allows to send a custom client token with the request.
      * @param accessToken The authentication token to be validated
      * @param clientToken Custom client token to be sent with the request (should be unique)
-     * @see net.openmcauthenticator.OpenMCAuthenticator#validate(String accessToken)
-     * @throws net.openmcauthenticator.exceptions.AuthenticationUnavailableException the servers are unreachable
-     * @throws net.openmcauthenticator.exceptions.InvalidTokenException the provided token is invalid
+     * @see OpenMCAuthenticator#validate(String accessToken)
+     * @throws AuthenticationUnavailableException the servers are unreachable
+     * @throws InvalidTokenException the provided token is invalid
      * @return true if the token is valid, false otherwise.
      */
     public static boolean validate(String accessToken, String clientToken) throws RequestException, AuthenticationUnavailableException {
@@ -108,9 +108,9 @@ public class OpenMCAuthenticator {
      * Validates the given access token. <b>This will return true only if the token is the most recently generated!</b>
      * The server will generate a random client token.
      * @param accessToken The authentication token to be validated
-     * @see net.openmcauthenticator.OpenMCAuthenticator#validate(String accessToken, String clientToken)
-     * @throws net.openmcauthenticator.exceptions.AuthenticationUnavailableException the servers are unreachable
-     * @throws net.openmcauthenticator.exceptions.InvalidTokenException the provided token is invalid
+     * @see OpenMCAuthenticator#validate(String accessToken, String clientToken)
+     * @throws AuthenticationUnavailableException the servers are unreachable
+     * @throws InvalidTokenException the provided token is invalid
      * @return true if the token is valid, false otherwise.
      */
     public static boolean validate(String accessToken) throws RequestException, AuthenticationUnavailableException {
@@ -121,8 +121,8 @@ public class OpenMCAuthenticator {
      * Invalidates the given access token.
      * @param accessToken The authentication token to be validated
      * @param clientToken Client token to be sent with the request. <b>Needs to be identical to the one received when getting the token.</b>
-     * @throws net.openmcauthenticator.exceptions.AuthenticationUnavailableException the servers are unreachable
-     * @throws net.openmcauthenticator.exceptions.InvalidTokenException the provided token is invalid
+     * @throws AuthenticationUnavailableException the servers are unreachable
+     * @throws InvalidTokenException the provided token is invalid
      * @return true if the token was invalidated successfully, false otherwise.
      */
     public static boolean invalidate(String accessToken, String clientToken) throws RequestException, AuthenticationUnavailableException {
@@ -141,10 +141,10 @@ public class OpenMCAuthenticator {
      * @param username The username, can be a nickname (old Minecraft account) or an email (Mojang account)
      * @param password The password for the account
      * @param clientToken Custom client token to be sent with the request (should be unique)
-     * @see net.openmcauthenticator.OpenMCAuthenticator#signout(String username, String password)
-     * @throws net.openmcauthenticator.exceptions.AuthenticationUnavailableException the servers are unreachable
-     * @throws net.openmcauthenticator.exceptions.InvalidCredentialsException bad or empty username/password pair
-     * @throws net.openmcauthenticator.exceptions.UserMigratedException email should be used as username instead of nickname
+     * @see OpenMCAuthenticator#signout(String username, String password)
+     * @throws AuthenticationUnavailableException the servers are unreachable
+     * @throws InvalidCredentialsException bad or empty username/password pair
+     * @throws UserMigratedException email should be used as username instead of nickname
      * @return true if the signout request was successful, false otherwise.
      */
     public static boolean signout(String username, String password, String clientToken) throws RequestException, AuthenticationUnavailableException {
@@ -163,10 +163,10 @@ public class OpenMCAuthenticator {
      * The server will generate a random client token.
      * @param username The username, can be a nickname (old Minecraft account) or an email (Mojang account)
      * @param password The password for the account
-     * @see net.openmcauthenticator.OpenMCAuthenticator#signout(String username, String password, String clientToken)
-     * @throws net.openmcauthenticator.exceptions.AuthenticationUnavailableException the servers are unreachable
-     * @throws net.openmcauthenticator.exceptions.InvalidCredentialsException bad or empty username/password pair
-     * @throws net.openmcauthenticator.exceptions.UserMigratedException email should be used as username instead of nickname
+     * @see OpenMCAuthenticator#signout(String username, String password, String clientToken)
+     * @throws AuthenticationUnavailableException the servers are unreachable
+     * @throws InvalidCredentialsException bad or empty username/password pair
+     * @throws UserMigratedException email should be used as username instead of nickname
      * @return true if the signout request was successful, false otherwise.
      */
     public static boolean signout(String username, String password) throws RequestException, AuthenticationUnavailableException {

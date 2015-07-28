@@ -1,4 +1,6 @@
-package net.openmcauthenticator.responses;
+package net.chris54721.openmcauthenticator.responses;
+
+import net.chris54721.openmcauthenticator.exceptions.RequestException;
 
 import java.io.Serializable;
 
@@ -6,7 +8,7 @@ import java.io.Serializable;
  * Response generated when an exception is thrown.
  * Intended for internal use only.
  * Call getError() and getErrorMessage() on a RequestException object to get more info about the error.
- * @see net.openmcauthenticator.exceptions.RequestException
+ * @see RequestException
  */
 public class ErrorResponse implements Serializable {
 

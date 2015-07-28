@@ -1,6 +1,6 @@
-package net.openmcauthenticator.exceptions;
+package net.chris54721.openmcauthenticator.exceptions;
 
-import net.openmcauthenticator.responses.ErrorResponse;
+import net.chris54721.openmcauthenticator.responses.ErrorResponse;
 
 /**
  * Thrown when a nickname is used as username instead of an email address and the user has a Mojang account.

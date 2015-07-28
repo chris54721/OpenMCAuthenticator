@@ -1,10 +1,10 @@
-package net.openmcauthenticator.responses;
+package net.chris54721.openmcauthenticator.responses;
 
-import net.openmcauthenticator.Profile;
+import net.chris54721.openmcauthenticator.Profile;
 
 /**
  * Response generated when refresh is successful.
- * @see net.openmcauthenticator.responses.LoginResponse
+ * @see LoginResponse
  */
 public class RefreshResponse extends LoginResponse {
 

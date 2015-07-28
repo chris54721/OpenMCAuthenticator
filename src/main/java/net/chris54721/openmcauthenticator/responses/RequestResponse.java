@@ -1,11 +1,13 @@
-package net.openmcauthenticator.responses;
+package net.chris54721.openmcauthenticator.responses;
+
+import net.chris54721.openmcauthenticator.OpenMCAuthenticator;
 
 import java.util.Map;
 
 /**
  * Response generated after every request made with private method sendJsonPostRequest.
  * Intended for internal use only.
- * @see net.openmcauthenticator.OpenMCAuthenticator#sendJsonPostRequest(java.net.URL, String)
+ * @see OpenMCAuthenticator#sendJsonPostRequest(java.net.URL, String)
  */
 public class RequestResponse {
 

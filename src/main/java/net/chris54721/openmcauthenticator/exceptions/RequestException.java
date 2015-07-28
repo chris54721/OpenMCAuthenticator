@@ -1,13 +1,13 @@
-package net.openmcauthenticator.exceptions;
+package net.chris54721.openmcauthenticator.exceptions;
 
-import net.openmcauthenticator.responses.ErrorResponse;
+import net.chris54721.openmcauthenticator.responses.ErrorResponse;
 
 /**
  * Main class, extended by every library's exception.
- * @see net.openmcauthenticator.exceptions.AuthenticationUnavailableException
- * @see net.openmcauthenticator.exceptions.InvalidCredentialsException
- * @see net.openmcauthenticator.exceptions.InvalidTokenException
- * @see net.openmcauthenticator.exceptions.UserMigratedException
+ * @see AuthenticationUnavailableException
+ * @see InvalidCredentialsException
+ * @see InvalidTokenException
+ * @see UserMigratedException
  */
 public class RequestException extends Exception {
 

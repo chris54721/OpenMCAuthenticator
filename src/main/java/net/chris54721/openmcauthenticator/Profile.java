@@ -1,4 +1,4 @@
-package net.openmcauthenticator;
+package net.chris54721.openmcauthenticator;
 
 import java.io.Serializable;
 import java.util.UUID;

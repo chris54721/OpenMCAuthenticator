@@ -9,13 +9,38 @@ Designed to work with latest Mojang protocols, enables you to parse every bit of
 - Uses custom exceptions to give you every detail on what went wrong with the request
 
 ##Download/Installation
-Downloads are available on the [releases page](https://github.com/Chris54721/OpenMCAuthenticator/releases).
-You can download both a binary .jar to be included in your classpath or the source code, which you can redistribute freely with your project.
+Just add this to your `pom.xml`:
+```
+<repositories>
+    <repository>
+        <id>Chris54721 Repository</id>
+        <url>http://maven.chris54721.net/</url>
+    </repository>
+</repositories>
+<dependencies>
+    ...
+    <dependency>
+      <groupId>net.chris54721</groupId>
+      <artifactId>openmcauthenticator</artifactId>
+      <version>1.1.0</version>
+    </dependency>
+    ...
+  </dependencies>
+```
 
-**OpenMCAuthenticator requires Google Gson.** Download its latest release and put it in your classpath.
-
-If you downloaded the binary JAR, just add it to your classpath (or extract it to your project's output jar).
-If you downloaded the source code, extract the `net` folder in your source folder.
+Or if you're using Gradle, in `build.gradle`:
+```
+repositories {
+    mavenCentral()
+    maven {
+        url "http://maven.chris54721.net"
+    }
+}
+dependencies {
+    ...
+    compile group: 'net.chris54721', name: 'openmcauthenticator', version: '1.1.0'
+}
+```
 
 ##Usage
 The library uses mainly static methods. You won't have to instantiate anything. Just call the static methods in the class `OpenMCAuthenticator` with the required arguments to get your response.

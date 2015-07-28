@@ -1,6 +1,6 @@
-package net.openmcauthenticator.exceptions;
+package net.chris54721.openmcauthenticator.exceptions;
 
-import net.openmcauthenticator.responses.ErrorResponse;
+import net.chris54721.openmcauthenticator.responses.ErrorResponse;
 
 /**
  * Thrown when the authentication servers are unreachable.
