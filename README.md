@@ -23,7 +23,7 @@ Just add this to your `pom.xml`:
     <dependency>
       <groupId>net.chris54721</groupId>
       <artifactId>openmcauthenticator</artifactId>
-      <version>1</version>
+      <version>1.1.2</version>
     </dependency>
     ...
   </dependencies>
@@ -39,7 +39,7 @@ repositories {
 }
 dependencies {
     ...
-    compile group: 'net.chris54721', name: 'openmcauthenticator', version: '1.1.1'
+    compile group: 'net.chris54721', name: 'openmcauthenticator', version: '1.1.2'
 }
 ```
 

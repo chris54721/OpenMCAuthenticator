@@ -4,3 +4,4 @@ OpenMCAuthenticator.iml
 # Gradle
 .gradle
 build
+gradle.properties
