@@ -19,39 +19,39 @@ dependencies {
 
 tasks.withType(PublishToMavenRepository) {
     doFirst {
-        if(!project.hasProperty("mavenUser")) {
+        if (!project.hasProperty("mavenUser")) {
             throw new InvalidUserDataException("The mavenUser property is not defined. Failed deploying to Maven.")
         }
-        if(!project.hasProperty("mavenPassword")) {
+        if (!project.hasProperty("mavenPassword")) {
             throw new InvalidUserDataException("The mavenPassword property is not defined. Failed deploying to Maven.")
         }
     }
 }
 
-task javadocJar (type: Jar, dependsOn: javadoc) {
+task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
     from javadoc.destinationDir
 }
 
-task sourceJar (type : Jar) {
+task sourceJar(type: Jar) {
     classifier = 'sources'
     from sourceSets.main.allSource
 }
 
 artifacts {
-    archives sourcesJar, javadocJar
+    archives sourceJar, javadocJar
 }
 
-if(project.hasProperty("mavenUser") && project.hasProperty("mavenPassword")) {
+if (project.hasProperty("mavenUser") && project.hasProperty("mavenPassword")) {
     publishing {
         publications {
             maven(MavenPublication) {
                 artifactId 'openmcauthenticator'
                 from components.java
-                artifact (javadocJar) {
+                artifact(javadocJar) {
                     classifier = 'javadoc'
                 }
-                artifact (sourceJar) {
+                artifact(sourceJar) {
                     classifier = 'sources'
                 }
             }
