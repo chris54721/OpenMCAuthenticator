@@ -5,16 +5,13 @@ version = '1.1.2'
 group = 'net.chris54721'
 archivesBaseName = 'openmcauthenticator'
 
-configurations {
-    wagon
-}
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
     compile group: 'com.google.code.gson', name: 'gson', version: '2.3.1'
+    runtime group: 'org.apache.maven.wagon', name: 'wagon-ssh', version: '2.9'
 }
 
 tasks.withType(PublishToMavenRepository) {
