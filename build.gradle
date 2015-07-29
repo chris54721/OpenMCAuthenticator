@@ -4,6 +4,7 @@ apply plugin: 'maven-publish'
 version = '1.1.2'
 group = 'net.chris54721'
 archivesBaseName = 'openmcauthenticator'
+sourceCompatibility = 1.6
 
 repositories {
     mavenCentral()
