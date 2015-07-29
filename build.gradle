@@ -13,12 +13,14 @@ dependencies {
     compile group: 'com.google.code.gson', name: 'gson', version: '2.3.1'
 }
 
-tasks.withType(PublishToMavenRepository).doFirst {
-    if(!project.hasProperty("mavenUser")) {
-        throw new InvalidUserDataException("The mavenUser property is not defined. Failed deploying to Maven.")
-    }
-    if(!project.hasProperty("mavenPassword")) {
-        throw new InvalidUserDataException("The mavenPassword property is not defined. Failed deploying to Maven.")
+tasks.withType(PublishToMavenRepository) {
+    doFirst {
+        if(!project.hasProperty("mavenUser")) {
+            throw new InvalidUserDataException("The mavenUser property is not defined. Failed deploying to Maven.")
+        }
+        if(!project.hasProperty("mavenPassword")) {
+            throw new InvalidUserDataException("The mavenPassword property is not defined. Failed deploying to Maven.")
+        }
     }
 }
 
