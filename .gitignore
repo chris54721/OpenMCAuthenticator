@@ -1,7 +1,9 @@
 # IntelliJ IDEA
-OpenMCAuthenticator.iml
+.idea/
+*.iml
 
 # Gradle
 .gradle
 build
 gradle.properties
+!gradle-wrapper.jar
