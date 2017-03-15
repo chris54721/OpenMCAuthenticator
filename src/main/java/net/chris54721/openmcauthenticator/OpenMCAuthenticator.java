@@ -21,7 +21,7 @@ import net.chris54721.openmcauthenticator.responses.RequestResponse;
  * OpenMCAuthenticator - Simple Minecraft authenticator
  *
  * @author Chris54721
- * @version 1.3.0
+ * @version 1.3.1
  * @see <a href="https://github.com/Chris54721/OpenMCAuthenticator">OpenMCAuthenticator on GitHub</a>
  */
 public class OpenMCAuthenticator {
