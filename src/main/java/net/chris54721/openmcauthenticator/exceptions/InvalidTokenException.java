@@ -7,8 +7,8 @@ import net.chris54721.openmcauthenticator.responses.ErrorResponse;
  */
 public class InvalidTokenException extends RequestException {
 
-    public InvalidTokenException(ErrorResponse error) {
-        super(error);
-    }
+  public InvalidTokenException(ErrorResponse error) {
+    super(error);
+  }
 
 }

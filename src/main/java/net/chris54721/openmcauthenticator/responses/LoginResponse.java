@@ -9,26 +9,26 @@ import net.chris54721.openmcauthenticator.Profile;
  */
 public class LoginResponse {
 
-    private String accessToken;
-    private String clientToken;
-    private Profile selectedProfile;
+  private String accessToken;
+  private String clientToken;
+  private Profile selectedProfile;
 
-    public LoginResponse(String accessToken, String clientToken, Profile selectedProfile) {
-        this.accessToken = accessToken;
-        this.clientToken = clientToken;
-        this.selectedProfile = selectedProfile;
-    }
+  public LoginResponse(String accessToken, String clientToken, Profile selectedProfile) {
+    this.accessToken = accessToken;
+    this.clientToken = clientToken;
+    this.selectedProfile = selectedProfile;
+  }
 
-    public String getAccessToken() {
-        return accessToken;
-    }
+  public String getAccessToken() {
+    return accessToken;
+  }
 
-    public String getClientToken() {
-        return clientToken;
-    }
+  public String getClientToken() {
+    return clientToken;
+  }
 
-    public Profile getSelectedProfile() {
-        return selectedProfile;
-    }
+  public Profile getSelectedProfile() {
+    return selectedProfile;
+  }
 
 }

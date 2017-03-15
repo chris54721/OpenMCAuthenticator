@@ -7,8 +7,8 @@ import net.chris54721.openmcauthenticator.responses.ErrorResponse;
  */
 public class UserMigratedException extends RequestException {
 
-    public UserMigratedException(ErrorResponse error) {
-        super(error);
-    }
+  public UserMigratedException(ErrorResponse error) {
+    super(error);
+  }
 
 }

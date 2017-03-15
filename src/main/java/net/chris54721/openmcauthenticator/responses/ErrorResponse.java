@@ -1,8 +1,7 @@
 package net.chris54721.openmcauthenticator.responses;
 
-import net.chris54721.openmcauthenticator.exceptions.RequestException;
-
 import java.io.Serializable;
+import net.chris54721.openmcauthenticator.exceptions.RequestException;
 
 /**
  * Response generated when an exception is thrown.
@@ -13,20 +12,20 @@ import java.io.Serializable;
  */
 public class ErrorResponse implements Serializable {
 
-    private String error;
-    private String errorMessage;
-    private String cause;
+  private String error;
+  private String errorMessage;
+  private String cause;
 
-    public String getError() {
-        return error;
-    }
+  public String getError() {
+    return error;
+  }
 
-    public String getErrorMessage() {
-        return errorMessage;
-    }
+  public String getErrorMessage() {
+    return errorMessage;
+  }
 
-    public String getCause() {
-        return cause;
-    }
+  public String getCause() {
+    return cause;
+  }
 
 }

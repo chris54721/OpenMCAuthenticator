@@ -7,8 +7,8 @@ import net.chris54721.openmcauthenticator.responses.ErrorResponse;
  */
 public class InvalidCredentialsException extends RequestException {
 
-    public InvalidCredentialsException(ErrorResponse error) {
-        super(error);
-    }
+  public InvalidCredentialsException(ErrorResponse error) {
+    super(error);
+  }
 
 }

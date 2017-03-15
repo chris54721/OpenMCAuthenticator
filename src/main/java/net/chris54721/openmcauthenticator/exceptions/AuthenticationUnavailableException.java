@@ -7,8 +7,8 @@ import net.chris54721.openmcauthenticator.responses.ErrorResponse;
  */
 public class AuthenticationUnavailableException extends Exception {
 
-    public AuthenticationUnavailableException(ErrorResponse error) {
+  public AuthenticationUnavailableException(ErrorResponse error) {
 
-    }
+  }
 
 }
