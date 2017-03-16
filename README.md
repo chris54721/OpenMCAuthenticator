@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-  compile 'com.github.chris54721:openmcauthenticator:1.2'
+  compile 'com.github.chris54721:openmcauthenticator:1.3.1'
 }
 ```
 
