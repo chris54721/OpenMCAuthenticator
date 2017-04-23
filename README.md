@@ -53,7 +53,7 @@ The full list of exceptions is available below.
 ```
 try {
   // make request
-} catch (ResponseException e) {
+} catch (RequestException e) {
   if (e instanceof AuthenticationUnavailableException) {
     // Authentication servers unavailable
   }
@@ -69,7 +69,7 @@ Use `OpenMCAuthenticator.authenticate` to request authentication with an usernam
 try {
   AuthenticationResponse authResponse = OpenMCAuthenticator.authenticate("username", "password");
   String authToken = authResponse.getAccessToken();
-} catch (ResponseException e) {
+} catch (RequestException e) {
   // handle exception
 }
 ```
@@ -81,7 +81,7 @@ Use `OpenMCAuthenticator.refresh` to request a new token by providing a valid on
 try {
   RefreshResponse refreshResponse = OpenMCAuthenticator.refresh("old accessToken", "used clientToken");
   String authToken = refreshResponse.getAccessToken();
-} catch (ResponseException e) {
+} catch (RequestException e) {
   // handle exception
 }
 ```
@@ -92,7 +92,7 @@ Use `OpenMCAuthenticator.validate` to check if the provided access token represe
 ```
 try {
   boolean isValid = OpenMCAuthenticator.validate("accessToken");
-} catch (ResponseException e) {
+} catch (RequestException e) {
   // handle exception
 }
 ```
@@ -103,7 +103,7 @@ Use `OpenMCAuthenticator.invalidate` to invalidate the given access token.
 ```
 try {
   boolean success = OpenMCAuthenticator.invalidate("accessToken", "clientToken");
-} catch (ResponseException e) {
+} catch (RequestException e) {
   // handle exception
 }
 ```
@@ -113,7 +113,7 @@ Use `OpenMCAuthenticator.signout` to invalidate *every* access token for an user
 ```
 try {
   boolean success = OpenMCAuthenticator.signout("username", "password");
-} catch (ResponseException e) {
+} catch (RequestException e) {
   // handle exception
 }
 ```
